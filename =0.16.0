@@ -1,0 +1,19 @@
+Requirement already satisfied: huggingface_hub[hf_xet] in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (0.36.0)
+Requirement already satisfied: filelock in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from huggingface_hub[hf_xet]) (3.19.1)
+Requirement already satisfied: fsspec>=2023.5.0 in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from huggingface_hub[hf_xet]) (2025.9.0)
+Requirement already satisfied: packaging>=20.9 in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from huggingface_hub[hf_xet]) (25.0)
+Requirement already satisfied: pyyaml>=5.1 in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from huggingface_hub[hf_xet]) (6.0.3)
+Requirement already satisfied: requests in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from huggingface_hub[hf_xet]) (2.32.5)
+Requirement already satisfied: tqdm>=4.42.1 in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from huggingface_hub[hf_xet]) (4.67.1)
+Requirement already satisfied: typing-extensions>=3.7.4.3 in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from huggingface_hub[hf_xet]) (4.15.0)
+Collecting hf-xet<2.0.0,>=1.1.2 (from huggingface_hub[hf_xet])
+  Downloading hf_xet-1.2.0-cp37-abi3-win_amd64.whl.metadata (5.0 kB)
+Requirement already satisfied: colorama in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from tqdm>=4.42.1->huggingface_hub[hf_xet]) (0.4.6)
+Requirement already satisfied: charset_normalizer<4,>=2 in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from requests->huggingface_hub[hf_xet]) (3.4.4)
+Requirement already satisfied: idna<4,>=2.5 in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from requests->huggingface_hub[hf_xet]) (3.11)
+Requirement already satisfied: urllib3<3,>=1.21.1 in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from requests->huggingface_hub[hf_xet]) (2.5.0)
+Requirement already satisfied: certifi>=2017.4.17 in c:\users\riad\desktop\new plant disease detetction\venv\lib\site-packages (from requests->huggingface_hub[hf_xet]) (2025.11.12)
+Downloading hf_xet-1.2.0-cp37-abi3-win_amd64.whl (2.9 MB)
+   ---------------------------------------- 2.9/2.9 MB 833.4 kB/s  0:00:03
+Installing collected packages: hf-xet
+Successfully installed hf-xet-1.2.0
