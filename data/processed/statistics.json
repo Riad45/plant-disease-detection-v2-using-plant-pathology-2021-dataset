@@ -1,0 +1,42 @@
+{
+  "dataset_source": "Plant Pathology 2021 (timm/plant-pathology-2021)",
+  "split_strategy": "Use train split only (Option 1)",
+  "original_train_samples": 16768,
+  "official_validation_samples": 1864,
+  "total_samples_used": 16768,
+  "num_classes": 12,
+  "class_names": [
+    "0",
+    "0_1",
+    "0_1_5",
+    "0_3",
+    "0_4",
+    "1",
+    "1_4",
+    "1_5",
+    "2",
+    "3",
+    "4",
+    "5"
+  ],
+  "train_samples": 13415,
+  "val_samples": 1676,
+  "test_samples": 1677,
+  "split_ratio": "80/10/10",
+  "stratified": true,
+  "random_seed": 42,
+  "class_distribution": {
+    "5": 4343,
+    "2": 4161,
+    "1": 2863,
+    "4": 1674,
+    "0": 1442,
+    "3": 1066,
+    "1_5": 617,
+    "0_1_5": 180,
+    "0_1": 149,
+    "1_4": 108,
+    "0_4": 87,
+    "0_3": 78
+  }
+}

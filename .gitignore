@@ -1,0 +1,175 @@
+# ==============================================================================
+# PLANT DISEASE DETECTION - GITIGNORE FOR CURSOR IDE
+# ==============================================================================
+
+# ==============================================================================
+# PYTHON
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ==============================================================================
+# VIRTUAL ENVIRONMENT
+# ==============================================================================
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+pythonenv*
+
+# ==============================================================================
+# CURSOR IDE
+# ==============================================================================
+.cursor/
+.cursorrules/
+cursor/
+
+# ==============================================================================
+# DATA & MODEL FILES (LARGE FILES - DO NOT TRACK)
+# ==============================================================================
+# Raw datasets - too large for Git
+data/raw/
+*.zip
+*.tar
+*.tar.gz
+*.7z
+
+# Model checkpoints - large binary files
+checkpoints/
+models/*.pth
+models/*.pt
+models/*.bin
+*.pth
+*.pt
+*.bin
+*.safetensors
+
+# HuggingFace cache
+.cache/
+.huggingface/
+
+# ==============================================================================
+# RESULTS & LOGS (GENERATED FILES - DO NOT TRACK)
+# ==============================================================================
+results/
+!results/README.md
+
+# ==============================================================================
+# OS & SYSTEM
+# ==============================================================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+
+# ==============================================================================
+# PYTHON PACKAGING & TESTING
+# ==============================================================================
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
+.env
+.venv
+
+# ==============================================================================
+# WEIGHTS & BIAS
+# ==============================================================================
+wandb/
+.wandb/
+
+# ==============================================================================
+# JUPYTER NOTEBOOKS (GENERATED OUTPUTS)
+# ==============================================================================
+.ipynb_checkpoints/
+notebooks/*.ipynb
+
+# ==============================================================================
+# MISC TEMPORARY FILES
+# ==============================================================================
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# ==============================================================================
+# EXCEPTIONS - FILES WE DO WANT TO TRACK
+# ==============================================================================
+# Keep empty directory structure
+!data/processed/.gitkeep
+!checkpoints/.gitkeep
+!results/.gitkeep
+!models/.gitkeep
+
+# Keep the processed data splits and metadata (small files)
+!data/processed/*.csv
+!data/processed/*.json
+!data/processed/*.pkl
+
+# Keep configuration files
+!configs/
+!src/config.py
+
+# Keep requirements
+!requirements*.txt
+
+# Keep scripts
+!scripts/*.py
+
+# Keep source code
+!src/**/*.py
+
+# Keep notebooks (if you want to track them)
+!notebooks/*.ipynb
