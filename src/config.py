@@ -1,6 +1,6 @@
 """
 OPTIMIZED Configuration for Plant Disease Detection
-Speed + Accuracy Balanced for RTX 3050 6GB - FIXED VERSION
+Multi-Label Compatible - Speed + Accuracy Balanced for RTX 3050 6GB
 """
 
 import torch
@@ -41,42 +41,45 @@ class Config:
     TEST_RATIO = 0.1
 
     # ========================================================================
-    # HARDWARE CONFIGURATION (Windows Optimized - FIXED!)
+    # HARDWARE CONFIGURATION (Windows Optimized)
     # ========================================================================
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # DataLoader settings (FIXED FOR PERFORMANCE)
-    NUM_WORKERS = 2  # CHANGED: 0 → 2 for better GPU utilization
+    # DataLoader settings - OPTIMIZED FOR PERFORMANCE
+    NUM_WORKERS = 2  # Optimal for dual-core + GPU
     PIN_MEMORY = True if torch.cuda.is_available() else False
-    PERSISTENT_WORKERS = True  # CHANGED: False → True for better performance
-    PREFETCH_FACTOR = 2  # ADDED: Prefetching for faster data loading
+    PERSISTENT_WORKERS = True  # Keep workers alive between epochs
+    PREFETCH_FACTOR = 2  # Prefetch 2 batches per worker
 
-    # Mixed Precision Training (FP16) - ESSENTIAL for 6GB GPU
+    # Mixed Precision Training (FP16) - Speed boost for RTX 3050
     USE_AMP = torch.cuda.is_available()
 
     # Gradient Accumulation steps per model
     GRADIENT_ACCUMULATION_STEPS = {
         'convnext_tiny': 1,
-        'swin_tiny': 1,  # CHANGED: 2 → 1 for stability
+        'swin_tiny': 1,
         'deit_small': 1
     }
 
     # ========================================================================
     # MODEL-SPECIFIC CONFIGURATIONS
     # ========================================================================
+    
+    # Image sizes
     IMAGE_SIZES = {
         'convnext_tiny': 224,
         'swin_tiny': 224,
         'deit_small': 224,
     }
 
-    # Batch sizes (Optimized for RTX 3050 6GB - FIXED!)
+    # Batch sizes (Optimized for RTX 3050 6GB)
     BATCH_SIZES = {
-        'convnext_tiny': 32,  # CHANGED: 16 → 32 (2x increase)
-        'swin_tiny': 24,      # CHANGED: 12 → 24 (2x increase)
-        'deit_small': 32,     # CHANGED: 18 → 32 (almost 2x increase)
+        'convnext_tiny': 32,  # Fast & stable
+        'swin_tiny': 24,      # Slightly larger model
+        'deit_small': 32,     # Similar to ConvNeXt
     }
 
+    # Model configurations
     MODEL_CONFIGS = {
         'convnext_tiny': {
             'timm_name': 'convnext_tiny.fb_in22k_ft_in1k',
@@ -161,14 +164,14 @@ class Config:
     # REPRODUCIBILITY vs SPEED
     # ========================================================================
     SEED = 42
-    CUDNN_DETERMINISTIC = False
-    CUDNN_BENCHMARK = True
+    CUDNN_DETERMINISTIC = False  # False = faster
+    CUDNN_BENCHMARK = True  # True = faster
 
     # ========================================================================
     # EXPERIMENT TRACKING
     # ========================================================================
     EXPERIMENT_ID = datetime.now().strftime("%Y%m%d_%H%M%S")
-    EXPERIMENT_NAME = "plant_disease_comparison"
+    EXPERIMENT_NAME = "plant_disease_multilabel"
 
     USE_WANDB = True
     WANDB_PROJECT = "plant-disease-thesis"
@@ -211,17 +214,26 @@ class Config:
 
     @classmethod
     def get_model_config(cls, model_name):
-        """Get all settings for a specific model"""
+        """
+        Get all settings for a specific model
+        Handles both 'convnext_tiny' and 'convnext_tiny_multilabel'
+        """
+        # Handle multi-label model names
+        base_name = model_name.replace('_multilabel', '')
+        
+        if base_name not in cls.MODEL_CONFIGS:
+            raise ValueError(f"Unknown model: {base_name}. Available: {list(cls.MODEL_CONFIGS.keys())}")
+        
         return {
             'name': model_name,
-            'timm_name': cls.MODEL_CONFIGS[model_name]['timm_name'],
-            'pretrained': cls.MODEL_CONFIGS[model_name]['pretrained'],
+            'timm_name': cls.MODEL_CONFIGS[base_name]['timm_name'],
+            'pretrained': cls.MODEL_CONFIGS[base_name]['pretrained'],
             'num_classes': cls.NUM_CLASSES,
-            'image_size': cls.IMAGE_SIZES[model_name],
-            'batch_size': cls.BATCH_SIZES[model_name],
-            'drop_rate': cls.MODEL_CONFIGS[model_name].get('drop_rate', 0.0),
-            'drop_path_rate': cls.MODEL_CONFIGS[model_name].get('drop_path_rate', 0.0),
-            'gradient_accumulation': cls.GRADIENT_ACCUMULATION_STEPS[model_name],
+            'image_size': cls.IMAGE_SIZES[base_name],
+            'batch_size': cls.BATCH_SIZES[base_name],
+            'drop_rate': cls.MODEL_CONFIGS[base_name].get('drop_rate', 0.0),
+            'drop_path_rate': cls.MODEL_CONFIGS[base_name].get('drop_path_rate', 0.0),
+            'gradient_accumulation': cls.GRADIENT_ACCUMULATION_STEPS[base_name],
         }
 
     @classmethod
@@ -256,6 +268,7 @@ class Config:
         }
 
         import json
+        cls.LOGS_DIR.mkdir(parents=True, exist_ok=True)
         with open(filepath, 'w') as f:
             json.dump(config_dict, f, indent=2)
 
@@ -265,7 +278,7 @@ class Config:
     def print_summary(cls):
         """Print configuration summary"""
         print("\n" + "=" * 70)
-        print("CONFIGURATION SUMMARY - FIXED VERSION")
+        print("CONFIGURATION SUMMARY - MULTI-LABEL OPTIMIZED")
         print("=" * 70)
 
         print(f"\n📊 Dataset:")
@@ -273,25 +286,25 @@ class Config:
         print(f"   Classes: {cls.NUM_CLASSES}")
         print(f"   Split: {cls.TRAIN_RATIO}/{cls.VAL_RATIO}/{cls.TEST_RATIO}")
 
-        print(f"\n🖥️ Hardware (FIXED FOR PERFORMANCE):")
+        print(f"\n🖥️ Hardware:")
         if torch.cuda.is_available():
             print(f"   Device: {torch.cuda.get_device_name(0)}")
             print(f"   Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
             print(f"   Mixed Precision: {cls.USE_AMP}")
-            print(f"   Num Workers: {cls.NUM_WORKERS} ⭐ (was 0)")
+            print(f"   Num Workers: {cls.NUM_WORKERS} ⭐")
             print(f"   Prefetch Factor: {cls.PREFETCH_FACTOR}")
             print(f"   Speed Mode: benchmark={cls.CUDNN_BENCHMARK}")
         else:
             print(f"   Device: CPU")
 
-        print(f"\n🤖 Models (OPTIMIZED BATCH SIZES):")
+        print(f"\n🤖 Models:")
         for model_name in cls.MODEL_CONFIGS.keys():
             cfg = cls.get_model_config(model_name)
             print(f"   {model_name}:")
-            print(f"      Image: {cfg['image_size']}×{cfg['image_size']}")
-            print(f"      Batch: {cfg['batch_size']} ⭐ (increased)")
-            print(f"      Accum: {cfg['gradient_accumulation']}x")
-            print(f"      Effective: {cfg['batch_size'] * cfg['gradient_accumulation']}")
+            print(f"       Image: {cfg['image_size']}×{cfg['image_size']}")
+            print(f"       Batch: {cfg['batch_size']} ⭐")
+            print(f"       Accum: {cfg['gradient_accumulation']}x")
+            print(f"       Effective: {cfg['batch_size'] * cfg['gradient_accumulation']}")
 
         print(f"\n⚙️ Training:")
         print(f"   Max Epochs: {cls.NUM_EPOCHS}")
@@ -308,22 +321,42 @@ class Config:
 
         print(f"\n🆔 Experiment: {cls.EXPERIMENT_ID}")
         print(f"\n🎯 EXPECTED PERFORMANCE:")
-        print(f"   Epoch Time: 2-5 minutes (was 20 minutes)")
-        print(f"   GPU Utilization: 70-95% (was 0-30%)")
-        print(f"   Total Training: 2-4 hours (was 16+ hours)")
+        print(f"   Epoch Time: 2-5 minutes")
+        print(f"   GPU Utilization: 70-95%")
+        print(f"   Total Training: 2-4 hours for 50 epochs")
         print("=" * 70 + "\n")
 
 
-# Initialize config instance
+# ============================================================================
+# INITIALIZE CONFIG
+# ============================================================================
 config = Config()
 
-# Print performance improvements
-if torch.cuda.is_available():
-    print("🚀 PERFORMANCE FIXES APPLIED:")
-    print("   ✅ num_workers = 2 (was 0)")
-    print("   ✅ Batch sizes increased 2x")
-    print("   ✅ Prefetching enabled")
-    print("   ✅ Persistent workers enabled")
-    print("   Expected speed improvement: 5-10x faster!")
-else:
-    print("⚠️  No GPU detected - training will be slow")
+# Create necessary directories
+for directory in [
+    config.DATA_DIR,
+    config.RAW_DATA_DIR,
+    config.PROCESSED_DATA_DIR,
+    config.MODEL_DIR,
+    config.CHECKPOINT_DIR,
+    config.RESULTS_DIR,
+    config.PLOTS_DIR,
+    config.LOGS_DIR,
+    config.METRICS_DIR,
+    config.CONFUSION_DIR
+]:
+    directory.mkdir(parents=True, exist_ok=True)
+
+# Print performance status
+if __name__ == "__main__":
+    # Only print when config is run directly (not when imported by workers)
+    if torch.cuda.is_available():
+        print("🚀 OPTIMIZED CONFIGURATION LOADED:")
+        print("    ✅ num_workers = 2")
+        print("    ✅ batch_size = 32 (ConvNeXt)")
+        print("    ✅ Prefetch factor = 2")
+        print("    ✅ Persistent workers = True")
+        print("    ✅ Mixed precision = True")
+        print("    Expected: 2-5 min/epoch (not 25 min!)")
+    else:
+        print("⚠️  No GPU detected - training will be slow")

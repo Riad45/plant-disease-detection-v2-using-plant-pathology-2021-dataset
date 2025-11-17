@@ -1,0 +1,34 @@
+{
+  "base_diseases": [
+    "healthy",
+    "scab",
+    "frog_eye_leaf_spot",
+    "complex",
+    "rust",
+    "powdery_mildew"
+  ],
+  "num_diseases": 6,
+  "disease_counts": {
+    "healthy": 1936,
+    "scab": 3917,
+    "frog_eye_leaf_spot": 4161,
+    "complex": 1144,
+    "rust": 1869,
+    "powdery_mildew": 5140
+  },
+  "combination_counts": {
+    "frog_eye_leaf_spot": 4161,
+    "powdery_mildew": 4343,
+    "healthy_and_scab_and_powdery_mildew": 180,
+    "scab": 2863,
+    "scab_and_powdery_mildew": 617,
+    "rust": 1674,
+    "complex": 1066,
+    "healthy_and_complex": 78,
+    "healthy": 1442,
+    "healthy_and_rust": 87,
+    "healthy_and_scab": 149,
+    "scab_and_rust": 108
+  },
+  "total_samples": 16768
+}
